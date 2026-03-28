@@ -43,17 +43,25 @@
            <option value="tw">Twi</option>
          </select>
       </div>
-      <form @submit.prevent="sendMessage" class="flex space-x-2">
+      <div v-if="voiceError" class="text-xs text-red-500 mb-2 font-medium bg-red-50 px-2 py-1 rounded inline-block">
+        {{ voiceError }}
+      </div>
+      <form @submit.prevent="sendMessage" class="flex space-x-2 items-center">
+        <VoiceInputButton 
+          :language="currentLanguage"
+          @update:transcript="handleTranscript"
+          @error="handleVoiceError"
+        />
         <Input 
           v-model="newMessage" 
           placeholder="Type your message..." 
-          class="flex-1 shadow-sm"
+          class="flex-1 shadow-sm h-12"
           :disabled="chatStore.isLoading"
         />
         <Button 
           type="submit" 
           :disabled="!newMessage.trim() || chatStore.isLoading"
-          class="w-12 px-0 shadow-sm transition-transform active:scale-95"
+          class="w-12 h-12 px-0 shadow-sm transition-transform active:scale-95 shrink-0"
         >
           <SendIcon class="w-5 h-5" />
           <span class="sr-only">Send</span>
@@ -68,13 +76,27 @@ import { ref, watch, nextTick } from 'vue'
 import { Leaf as LeafIcon, Send as SendIcon } from 'lucide-vue-next'
 import { useChatStore } from '@/store/chat'
 import MessageBubble from './MessageBubble.vue'
+import VoiceInputButton from './VoiceInputButton.vue'
 import Input from '@/components/ui/Input.vue'
 import Button from '@/components/ui/Button.vue'
 
 const chatStore = useChatStore()
 const newMessage = ref('')
 const messagesContainer = ref(null)
-const currentLanguage = ref(chatStore.currentLanguage)
+const currentLanguage = ref(chatStore.currentLanguage || 'tw')
+const voiceError = ref(null)
+
+const handleTranscript = (text) => {
+  newMessage.value = text
+  voiceError.value = null
+}
+
+const handleVoiceError = (err) => {
+  voiceError.value = err
+  setTimeout(() => {
+    voiceError.value = null
+  }, 4000)
+}
 
 const scrollToBottom = async () => {
   await nextTick()
