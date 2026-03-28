@@ -33,7 +33,6 @@ const props = defineProps({
   }
 })
 
-const emit = defineProps(['update:transcript', 'error'])
 const emits = defineEmits(['update:transcript', 'error'])
 
 const { 
