@@ -36,10 +36,11 @@ export const useChatStore = defineStore('chat', {
           timestamp: new Date()
         });
       } catch (err) {
-        this.error = err.message || 'Failed to send message';
+        const errorMessage = err.response?.data?.message || err.message || 'Sorry, I am having trouble connecting right now. Please try again later.';
+        this.error = errorMessage;
         this.messages.push({
           id: Date.now() + 1,
-          text: 'Sorry, I am having trouble connecting right now. Please try again later.',
+          text: errorMessage,
           sender: 'system',
           isError: true,
           timestamp: new Date()
