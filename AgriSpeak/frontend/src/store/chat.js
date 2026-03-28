@@ -31,7 +31,7 @@ export const useChatStore = defineStore('chat', {
         
         this.messages.push({
           id: Date.now() + 1,
-          text: response.data.response,
+          text: response.data.reply,
           sender: 'ai',
           timestamp: new Date()
         });
