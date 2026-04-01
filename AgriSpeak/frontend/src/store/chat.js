@@ -1,12 +1,13 @@
 import { defineStore } from 'pinia';
 import { chatApi } from '../api/chat.js';
+import { getDefaultChatLanguage } from '../lib/env.js';
 
 export const useChatStore = defineStore('chat', {
   state: () => ({
     messages: [],
     isLoading: false,
     error: null,
-    currentLanguage: 'tw', // Default to Twi as per requirements
+    currentLanguage: getDefaultChatLanguage(),
   }),
   actions: {
     setLanguage(lang) {

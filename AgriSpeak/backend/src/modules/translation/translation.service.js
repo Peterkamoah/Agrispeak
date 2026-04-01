@@ -1,12 +1,12 @@
-import ghanaNLPProvider from '../../providers/ghananlp.provider.js';
+import { translateText } from '../../providers/khaya.service.js';
 
 class TranslationService {
   async translateTwiToEnglish(text) {
-    return await ghanaNLPProvider.translate(text, 'tw', 'en');
+    return await translateText(text, 'tw-en');
   }
 
   async translateEnglishToTwi(text) {
-    return await ghanaNLPProvider.translate(text, 'en', 'tw');
+    return await translateText(text, 'en-tw');
   }
 }
 

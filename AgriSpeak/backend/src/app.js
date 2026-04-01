@@ -3,6 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import chatRoutes from './modules/chat/chat.routes.js';
+import asrRoutes from './modules/asr/asr.routes.js';
 import { globalErrorHandler } from './core/middleware/error.middleware.js';
 import AppError from './core/errors/AppError.js';
 
@@ -16,6 +17,7 @@ app.use(morgan('dev'));
 
 // Modules
 app.use('/api/chat', chatRoutes);
+app.use('/api/asr', asrRoutes);
 
 // Unhandled routes
 app.all('*', (req, res, next) => {
